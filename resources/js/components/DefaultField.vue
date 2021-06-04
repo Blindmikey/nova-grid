@@ -1,6 +1,6 @@
 <template>
 
-    <div ref="field-wrapper" :class="[this.field.size, this.field.classes]"> <!-- ADD this.field.size to this div -->
+    <div ref="field-wrapper" :id="this.field.id" :class="[this.field.size, this.field.classes]"> <!-- ADD this.field.size to this div -->
         <field-wrapper :stacked="field.stacked">
             <div :class="fieldWrapperClasses">
 

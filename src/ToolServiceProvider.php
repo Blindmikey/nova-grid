@@ -30,6 +30,10 @@ class ToolServiceProvider extends ServiceProvider
                 return $this->withMeta(['classes' => $classes]);
             });
 
+            Field::macro('id', function ($id = '') {
+                return $this->withMeta(['id' => $id]);
+            });
+
         });
 
 
