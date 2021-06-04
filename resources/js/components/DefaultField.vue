@@ -4,7 +4,7 @@
         <field-wrapper :stacked="field.stacked">
             <div :class="fieldWrapperClasses">
 
-                <div class="px-8" :class="fieldLabelClasses">
+                <div :class="fieldLabelClasses">
                     <slot>
                         <form-label
                             :label-for="field.attribute"
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-    import { HandlesValidationErrors, Errors, mapProps } from 'laravel-nova'
+    import { HandlesValidationErrors, Errors } from 'laravel-nova'
 
     export default {
         mixins: [HandlesValidationErrors],
@@ -47,7 +47,6 @@
             showHelpText: { type: Boolean, default: true },
             showErrors: { type: Boolean, default: true },
             fullWidthContent: { type: Boolean, default: false },
-            ...mapProps(['showHelpText']),
         },
 
         data:() => ({
@@ -55,7 +54,7 @@
         }),
 
         mounted() {
-            if (this.hasSize) {
+            if (this.hasSize && this.$parent.$parent.$el.length) {
                 this.$parent.$parent.$el.classList.add('nova-grid-card-styles');
                 // this.$refs['field-wrapper'].parentNode.classList.add(this.field.size)  //COMMENT THIS OUT
             }
@@ -81,20 +80,24 @@
             },
 
             fieldLabelClasses() {
-                return this.hasSize ? 'nova-grid-field-label' : ( this.field.stacked ? 'pt-6 w-full' : 'py-6 w-1/5' );
+                return this.hasSize ? 'nova-grid-field-label' : ( this.field.stacked ? 'px-8 pt-6 pb-2 w-full font-bold' : 'px-8 py-6 w-1/5' );
             },
 
             fieldWrapperClasses() {
-                return this.field.size !== undefined ? 'nova-grid-wrapper' : 'flex border-b border-40 w-full';
+                return this.field.size !== undefined ? 'nova-grid-wrapper' : ( this.field.stacked ? '' : 'flex border-b border-40 w-full' );
             },
 
             fieldClasses() {
 
-                if(this.hasSize || this.field.stacked) {
+                if(this.hasSize) {
                     return 'w-full';
                 }
 
-                return this.fullWidthContent ? 'py-6 px-8 w-4/5' : 'py-6 px-8 w-1/2'
+                return this.fullWidthContent
+                ? this.field.stacked
+                  ? 'pb-6 px-8 w-full'
+                  : 'py-6 px-8 w-4/5'
+                : 'py-6 px-8 w-1/2';
             },
         },
     }
