@@ -25,6 +25,11 @@ class ToolServiceProvider extends ServiceProvider
             Field::macro('size', function ($size = 'w-full') {
                 return $this->withMeta(['size' => $size]);
             });
+
+            Field::macro('classes', function ($classes = '') {
+                return $this->withMeta(['classes' => $classes]);
+            });
+
         });
 
 

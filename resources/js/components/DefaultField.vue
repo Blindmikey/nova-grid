@@ -1,6 +1,6 @@
 <template>
 
-    <div ref="field-wrapper" :class="this.field.size"> <!-- ADD this.field.size to this div -->
+    <div ref="field-wrapper" :class="[this.field.size, this.field.classes]"> <!-- ADD this.field.size to this div -->
         <field-wrapper>
             <div :class="fieldWrapperClasses">
 
@@ -73,6 +73,10 @@
 
             hasSize() {
                 return this.field.size !== undefined;
+            },
+
+            hasClasses() {
+                return this.field.classes !== undefined;
             },
 
             fieldLabelClasses() {
