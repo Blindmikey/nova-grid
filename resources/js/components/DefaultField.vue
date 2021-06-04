@@ -1,10 +1,10 @@
 <template>
 
     <div ref="field-wrapper" :class="[this.field.size, this.field.classes]"> <!-- ADD this.field.size to this div -->
-        <field-wrapper>
+        <field-wrapper :stacked="field.stacked">
             <div :class="fieldWrapperClasses">
 
-                <div :class="fieldLabelClasses">
+                <div class="px-8" :class="fieldLabelClasses">
                     <slot>
                         <form-label
                             :label-for="field.attribute"
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-    import { HandlesValidationErrors, Errors } from 'laravel-nova'
+    import { HandlesValidationErrors, Errors, mapProps } from 'laravel-nova'
 
     export default {
         mixins: [HandlesValidationErrors],
@@ -47,6 +47,7 @@
             showHelpText: { type: Boolean, default: true },
             showErrors: { type: Boolean, default: true },
             fullWidthContent: { type: Boolean, default: false },
+            ...mapProps(['showHelpText']),
         },
 
         data:() => ({
@@ -68,7 +69,7 @@
                     return ''
                 }
 
-                return this.fieldName || this.field.singularLabel || this.field.name
+                return this.fieldName || this.field.name || this.field.singularLabel
             },
 
             hasSize() {
@@ -80,7 +81,7 @@
             },
 
             fieldLabelClasses() {
-                return this.hasSize ? 'nova-grid-field-label' : 'w-1/5 py-6 px-8';
+                return this.hasSize ? 'nova-grid-field-label' : ( this.field.stacked ? 'pt-6 w-full' : 'py-6 w-1/5' );
             },
 
             fieldWrapperClasses() {
@@ -89,7 +90,7 @@
 
             fieldClasses() {
 
-                if(this.hasSize) {
+                if(this.hasSize || this.field.stacked) {
                     return 'w-full';
                 }
 
